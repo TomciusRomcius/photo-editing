@@ -1,7 +1,5 @@
 export interface IEffect {
-  toolName: string;
-  toolIcon: string;
   isActive: boolean;
-
+  drawOptions: () => void;
   apply: () => void;
 }

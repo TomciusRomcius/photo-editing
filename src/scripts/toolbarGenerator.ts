@@ -1,4 +1,4 @@
-import { Pointer } from './effects/pointer';
+import { Pointer } from './core/effects/pointer';
 import { Image } from './core/image';
 
 export function generateToolbar() {

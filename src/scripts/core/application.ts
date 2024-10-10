@@ -1,5 +1,6 @@
 import { generateToolbar } from '../toolbarGenerator';
 import { ViewportImage } from './image';
+import { Project } from './project';
 
 export class Application {
   private gl: WebGL2RenderingContext | null;
@@ -12,16 +13,6 @@ export class Application {
     this.initialize();
   }
   
-  update() {
-    if (!this.gl || !this.currentImage) {
-      console.error('WebGL context or currentImage is undefined');
-      return;
-    }
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-    this.gl.clearColor(0, 0, 0, 0);
-    this.currentImage?.render(this.gl);
-  }
-
   initialize() {
     generateToolbar();
     this.canvas = document.getElementById('game') as HTMLCanvasElement;
@@ -41,8 +32,6 @@ export class Application {
       return;
     }
 
-    this.currentImage = new ViewportImage(this.canvas, this.gl, './src');
-    this.update();
-    setInterval(() => this.update(), 10);
+    const project = new Project(this.canvas, this.gl);
   }
 }

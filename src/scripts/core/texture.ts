@@ -1,29 +1,44 @@
 export class Texture {
-  texture: WebGLTexture | null;
+  private texture: WebGLTexture | null;
+  private gl: WebGL2RenderingContext;
 
-  public constructor(gl: WebGL2RenderingContext, imgSrc: string) {
+  public constructor(gl: WebGL2RenderingContext, imgSrc?: string) {
+    this.gl = gl;
     this.texture = gl.createTexture();
     if (!this.texture) {
       console.error('Failed to create texture');
       return;
     }
 
-    const image = new Image();
-    image.src = 'http://localhost:5173/brick.jpg';
-
-    image.onload = () => {
-      gl.bindTexture(gl.TEXTURE_2D, this.texture);
+    if (imgSrc) {
+      const image = new Image();
+      image.src = 'http://localhost:5173/brick.jpg';
   
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-  
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      image.onload = () => {
+        this.setParameters();
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      }
     }
+    
+    else {
+      this.setParameters();
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 256, 256, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    }
+  }
+
+  private setParameters() {
+    this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.NEAREST);
+    this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
   }
 
   public bind(gl: WebGL2RenderingContext) {
     gl.bindTexture(gl.TEXTURE_2D, this.texture);
+  }
+
+  public getTexture() {
+    return this.texture;
   }
 }
