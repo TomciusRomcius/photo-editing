@@ -22,4 +22,8 @@ export class Program {
   public useProgram(gl: WebGL2RenderingContext) {
     gl.useProgram(this.program);
   }
+
+  public getProgram() {
+    return this.program;
+  }
 }

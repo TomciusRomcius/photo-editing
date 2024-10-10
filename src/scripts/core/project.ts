@@ -1,7 +1,5 @@
-import { Effect, EffectType } from "./effect";
+import { BrightnessContrast } from "./effects/brightnessContrast/brightnessContrast";
 import { IEffect } from "./effects/effect";
-import { GreenEffect } from "./effects/green";
-import { RedEffect } from "./effects/redEffect";
 import { ViewportImage } from "./image";
 
 export class Project {
@@ -19,8 +17,6 @@ export class Project {
   }
 
   toggleEffect() {
-    this.effects.push(new RedEffect(this.gl));
-    this.effects.push(new GreenEffect(this.gl));
     this.image.render(this.gl);
   }
 

@@ -1,18 +1,18 @@
 import { IEffect } from "./effects/effect";
 import { Shader } from "./shader";
-import vertexSource from "./shaders/vertex.glsl?raw";
-import fragmentSource from "./shaders/fragment.glsl?raw";
+import vertexSource from "./coreShaders/vertex.glsl?raw";
+import fragmentSource from "./coreShaders/fragment.glsl?raw";
 import { Core } from "./arrayBuffer";
 import { Program } from "./program";
 import { Texture } from "./texture";
-import { quadVertices } from "./quadVertices";
-import { EffectType } from "./effect";
+import { quadVertices, quadVerticesForFramebuffer } from "./quadVertices";
 import { Framebuffer } from "./framebuffer";
 
 export class ViewportImage {
   canvas: HTMLCanvasElement;
   effects: Array<IEffect>;
   arrayBuffer: Core.ArrayBuffer | null;
+  arrayBufferForFrame: Core.ArrayBuffer | null;
   texture: Texture | null;
   program: Program;
   framebuffer1: Framebuffer | null = null;
@@ -29,6 +29,10 @@ export class ViewportImage {
     // Create necessary WebGL objects
     this.texture = new Texture(gl, canvas, "a");
     this.arrayBuffer = new Core.ArrayBuffer(gl, quadVertices);
+    this.arrayBufferForFrame = new Core.ArrayBuffer(
+      gl,
+      quadVerticesForFramebuffer
+    );
     this.arrayBuffer.bind(gl);
 
     const vertexShader = new Shader(gl, vertexSource, gl.VERTEX_SHADER);
@@ -39,9 +43,9 @@ export class ViewportImage {
     this.program = new Program(gl, vertexShader, fragmentShader);
   }
 
-  public addEffect(effectType: EffectType) {}
+  public addEffect() {}
 
-  public removeEffect(effectType: EffectType) {}
+  public removeEffect() {}
 
   // Rerender the whole image
   public render(gl: WebGL2RenderingContext) {
@@ -62,6 +66,8 @@ export class ViewportImage {
     this.program.useProgram(gl);
     this.texture?.bind(gl);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
+    this.arrayBufferForFrame.bind(gl);
+
 
     // Apply effects
     this.effects.forEach((effect) => {
@@ -80,7 +86,7 @@ export class ViewportImage {
     });
 
     // Unbind framebuffers and draw the processed image
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     this.framebuffer1.texture?.bind(gl);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
