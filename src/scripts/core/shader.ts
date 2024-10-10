@@ -4,7 +4,7 @@ export class Shader {
   public constructor(gl: WebGL2RenderingContext, source: string, type: GLenum) {
     this.shader = gl.createShader(type);
     if (!this.shader) {
-      console.error("Failed to create shader");
+      console.error('Failed to create shader');
       return;
     }
 
@@ -18,13 +18,13 @@ export class Shader {
 
       switch (type) {
         case gl.VERTEX_SHADER:
-          stringType = "VERTEX";
+          stringType = 'VERTEX';
           break;
         case gl.FRAGMENT_SHADER:
-          stringType = "VERTEX";
+          stringType = 'VERTEX';
           break;
         default:
-          console.error("Trying to create an unsupported shader type");
+          console.error('Trying to create an unsupported shader type');
           return;
       }
 

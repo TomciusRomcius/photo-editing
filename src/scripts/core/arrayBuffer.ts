@@ -5,7 +5,7 @@ export namespace Core {
     constructor(gl: WebGL2RenderingContext, data: Float32Array) {
       this.buffer = gl.createBuffer();
       if (!this.buffer) {
-        alert("Failed to create array buffer");
+        alert('Failed to create array buffer');
         return;
       }
       gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);

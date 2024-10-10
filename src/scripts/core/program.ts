@@ -1,4 +1,4 @@
-import { Shader } from "./shader";
+import { Shader } from './shader';
 
 export class Program {
   private program: WebGLProgram | null;

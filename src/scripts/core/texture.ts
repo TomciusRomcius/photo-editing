@@ -4,12 +4,12 @@ export class Texture {
   public constructor(gl: WebGL2RenderingContext, imgSrc: string) {
     this.texture = gl.createTexture();
     if (!this.texture) {
-      console.error("Failed to create texture");
+      console.error('Failed to create texture');
       return;
     }
 
     const image = new Image();
-    image.src = "http://localhost:5173/brick.jpg";
+    image.src = 'http://localhost:5173/brick.jpg';
 
     image.onload = () => {
       gl.bindTexture(gl.TEXTURE_2D, this.texture);

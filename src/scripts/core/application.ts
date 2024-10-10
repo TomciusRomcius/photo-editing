@@ -1,5 +1,5 @@
-import { generateToolbar } from "../toolbarGenerator";
-import { ViewportImage } from "./image";
+import { generateToolbar } from '../toolbarGenerator';
+import { ViewportImage } from './image';
 
 export class Application {
   private gl: WebGL2RenderingContext | null;
@@ -24,20 +24,20 @@ export class Application {
 
   initialize() {
     generateToolbar();
-    this.canvas = document.getElementById("game") as HTMLCanvasElement;
+    this.canvas = document.getElementById('game') as HTMLCanvasElement;
     const canvasParent = this.canvas.parentElement;
     if (!this.canvas) {
-      console.error("Canvas is undefined");
+      console.error('Canvas is undefined');
       return;
     }
     if (!canvasParent) {
-      console.error("Canvas parent is undefined");
+      console.error('Canvas parent is undefined');
       return;
     }
     // this.canvas.height = 
     this.gl = this.canvas.getContext('webgl2');
     if (!this.gl) {
-      console.error("Failed to initialize canvas context");
+      console.error('Failed to initialize canvas context');
       return;
     }
 

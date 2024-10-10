@@ -1,10 +1,10 @@
-import { IEffect } from "../effects/effect";
-import { Shader } from "./shader";
-import vertexSource from "../../shaders/vertex.glsl?raw";
-import fragmentSource from "../../shaders/fragment.glsl?raw";
-import { Core } from "./arrayBuffer";
-import { Program } from "./program";
-import { Texture } from "./texture";
+import { IEffect } from '../effects/effect';
+import { Shader } from './shader';
+import vertexSource from './shaders/vertex.glsl?raw';
+import fragmentSource from './shaders/fragment.glsl?raw';
+import { Core } from './arrayBuffer';
+import { Program } from './program';
+import { Texture } from './texture';
 
 // prettier-ignore
 const quadVertices = new Float32Array([
