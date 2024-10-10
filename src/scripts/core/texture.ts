@@ -2,7 +2,7 @@ export class Texture {
   private texture: WebGLTexture | null;
   private gl: WebGL2RenderingContext;
 
-  public constructor(gl: WebGL2RenderingContext, imgSrc?: string) {
+  public constructor(gl: WebGL2RenderingContext, canvas: HTMLCanvasElement, imgSrc?: string) {
     this.gl = gl;
     this.texture = gl.createTexture();
     if (!this.texture) {
@@ -22,7 +22,7 @@ export class Texture {
     
     else {
       this.setParameters();
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 256, 256, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
     }
   }
 

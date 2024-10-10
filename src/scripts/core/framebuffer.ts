@@ -5,7 +5,7 @@ export class Framebuffer {
   texture: Texture | null = null;
   gl: WebGL2RenderingContext;
 
-  constructor(gl: WebGL2RenderingContext) {
+  constructor(gl: WebGL2RenderingContext, canvas: HTMLCanvasElement) {
     this.framebuffer = gl.createFramebuffer();
     this.gl = gl;
     if (!this.framebuffer) {
@@ -13,7 +13,7 @@ export class Framebuffer {
       return;
     }
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.framebuffer);
-    this.texture = new Texture(gl);
+    this.texture = new Texture(gl, canvas);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.texture.getTexture(), 0);
 
     // Unbind framebuffer

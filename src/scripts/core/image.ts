@@ -27,15 +27,15 @@ export class ViewportImage {
     this.effects = effects;
 
     // Create necessary WebGL objects
-    this.texture = new Texture(gl, "a");
+    this.texture = new Texture(gl, canvas, "a");
     this.arrayBuffer = new Core.ArrayBuffer(gl, quadVertices);
     this.arrayBuffer.bind(gl);
 
     const vertexShader = new Shader(gl, vertexSource, gl.VERTEX_SHADER);
     const fragmentShader = new Shader(gl, fragmentSource, gl.FRAGMENT_SHADER);
 
-    this.framebuffer1 = new Framebuffer(gl);
-    this.framebuffer2 = new Framebuffer(gl);
+    this.framebuffer1 = new Framebuffer(gl, canvas);
+    this.framebuffer2 = new Framebuffer(gl, canvas);
     this.program = new Program(gl, vertexShader, fragmentShader);
   }
 
@@ -80,6 +80,7 @@ export class ViewportImage {
     });
 
     // Unbind framebuffers and draw the processed image
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     this.framebuffer1.texture?.bind(gl);
     gl.drawArrays(gl.TRIANGLES, 0, 6);

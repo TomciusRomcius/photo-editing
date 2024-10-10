@@ -27,6 +27,8 @@ export class Application {
     }
     // this.canvas.height = 
     this.gl = this.canvas.getContext('webgl2');
+    this.canvas.width = canvasParent.clientWidth;
+    this.canvas.height = canvasParent.clientHeight;
     if (!this.gl) {
       console.error('Failed to initialize canvas context');
       return;
