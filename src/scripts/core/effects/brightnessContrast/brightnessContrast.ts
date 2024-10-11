@@ -3,6 +3,7 @@ import { Shader } from "../../shader";
 import { IEffect } from "../effect";
 import vertexSource from "../../coreShaders/vertex.glsl?raw";
 import fragmentSource from "./brightnessContrast.glsl?raw";
+import { createEffectSection } from "../../ui/createToggleableElement";
 
 export class BrightnessContrast implements IEffect {
   gl: WebGL2RenderingContext;
@@ -25,5 +26,7 @@ export class BrightnessContrast implements IEffect {
     this.gl.uniform1f(location, 2);
   }
 
-  drawOptions() {}
+  drawOptions(parent: HTMLDivElement) {
+    createEffectSection(parent, "Brightness / Contrast", "brightness-contrast", "abcd");
+  }
 }

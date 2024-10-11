@@ -25,6 +25,7 @@ main {
 button {
   background: none;
   cursor: pointer;
+  border: none;
 }
 
 .ui-section {
@@ -61,4 +62,12 @@ button {
 
 .bottom-part {
   flex: 1;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.effect-ui {
+  background-color: #5f5c72;
 }

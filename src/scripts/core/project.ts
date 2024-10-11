@@ -13,12 +13,23 @@ export class Project {
     this.gl = gl;
     this.canvas = canvas;
     this.toggleEffect();
+    this.drawEffectUI();
     setInterval(() => this.render(), 50);
   }
 
   toggleEffect() {
-    this.image.render(this.gl);
     this.effects.push(new BrightnessContrast(this.gl));
+  }
+
+  drawEffectUI() {
+    const parent = document.getElementById("effects-list");
+    if (!parent) {
+      console.error("effects list is undefined")
+      return;
+    }
+    this.effects.forEach((effect) => {
+      effect.drawOptions(parent);
+    });
   }
 
   render() {

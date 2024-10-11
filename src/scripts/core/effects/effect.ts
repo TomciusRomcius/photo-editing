@@ -1,5 +1,5 @@
 export interface IEffect {
   isActive: boolean;
-  drawOptions: () => void;
+  drawOptions: (parent: HTMLDivElement) => void;
   apply: () => void;
 }
