@@ -18,6 +18,7 @@ export class Project {
 
   toggleEffect() {
     this.image.render(this.gl);
+    this.effects.push(new BrightnessContrast(this.gl));
   }
 
   render() {
