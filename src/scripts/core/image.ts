@@ -69,7 +69,6 @@ export class ViewportImage {
     gl.drawArrays(gl.TRIANGLES, 0, 6);
     this.arrayBufferForFrame.bind(gl);
 
-
     // Apply effects
     this.effects.forEach((effect) => {
       // Check if framebuffers are not null

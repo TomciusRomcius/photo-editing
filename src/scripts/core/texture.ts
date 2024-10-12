@@ -15,16 +15,27 @@ export class Texture {
     }
 
     if (imgSrc) {
-        this.setParameters();
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-        gl.texImage2D(
-          gl.TEXTURE_2D,
-          0,
-          gl.RGBA,
-          gl.RGBA,
-          gl.UNSIGNED_BYTE,
-          imgSrc
-        );
+      this.setParameters();
+      
+      // Unflip the image
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+
+      // Reset canvas size to image size
+      gl.canvas.width = imgSrc.width;
+      gl.canvas.height = imgSrc.height;
+
+      // Put the image data in the texture buffer
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        imgSrc.width,
+        imgSrc.height,
+        0,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        imgSrc
+      );
     } else {
       this.setParameters();
       gl.texImage2D(
@@ -46,12 +57,12 @@ export class Texture {
     this.gl.texParameteri(
       this.gl.TEXTURE_2D,
       this.gl.TEXTURE_WRAP_S,
-      this.gl.CLAMP_TO_EDGE
+      this.gl.REPEAT
     );
     this.gl.texParameteri(
       this.gl.TEXTURE_2D,
       this.gl.TEXTURE_WRAP_T,
-      this.gl.CLAMP_TO_EDGE
+      this.gl.REPEAT
     );
     this.gl.texParameteri(
       this.gl.TEXTURE_2D,
