@@ -16,6 +16,7 @@ export class Texture {
 
     if (imgSrc) {
         this.setParameters();
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
         gl.texImage2D(
           gl.TEXTURE_2D,
           0,
