@@ -32,11 +32,16 @@ export class BrightnessContrast implements IEffect {
 
   apply() {
     this.program?.useProgram(this.gl);
-    const location = this.gl.getUniformLocation(
+    const contrastLoc = this.gl.getUniformLocation(
       this.program.getProgram(),
       "contrast"
     );
-    this.gl.uniform1f(location, this.properties.contrast);
+    const brightnessLoc = this.gl.getUniformLocation(
+      this.program.getProgram(),
+      "brightness"
+    );
+    this.gl.uniform1f(contrastLoc, this.properties.contrast);
+    this.gl.uniform1f(brightnessLoc, this.properties.brightness);
   }
 
   drawOptions(parent: HTMLDivElement) {
@@ -46,11 +51,18 @@ export class BrightnessContrast implements IEffect {
       "brightness-contrast",
       "abcd"
     );
-    const slider = new Slider(parent, {
-      name: "name",
+    new Slider(parent, {
+      name: "Brightness",
       min: 0,
       max: 2,
-      onChange: (value) => this.properties.contrast = value,
+      onChange: (value) => (this.properties.brightness = value),
+    });
+      
+    new Slider(parent, {
+      name: "Contrast",
+      min: 0,
+      max: 2,
+      onChange: (value) => (this.properties.contrast = value),
     });
   }
 }
