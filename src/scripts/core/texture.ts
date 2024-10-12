@@ -5,7 +5,7 @@ export class Texture {
   public constructor(
     gl: WebGL2RenderingContext,
     canvas: HTMLCanvasElement,
-    imgSrc?: string
+    imgSrc?: HTMLImageElement
   ) {
     this.gl = gl;
     this.texture = gl.createTexture();
@@ -15,10 +15,6 @@ export class Texture {
     }
 
     if (imgSrc) {
-      const image = new Image();
-      image.src = "http://localhost:5173/brick.jpg";
-
-      image.onload = () => {
         this.setParameters();
         gl.texImage2D(
           gl.TEXTURE_2D,
@@ -26,11 +22,9 @@ export class Texture {
           gl.RGBA,
           gl.RGBA,
           gl.UNSIGNED_BYTE,
-          image
+          imgSrc
         );
-      };
     } else {
-      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
       this.setParameters();
       gl.texImage2D(
         gl.TEXTURE_2D,

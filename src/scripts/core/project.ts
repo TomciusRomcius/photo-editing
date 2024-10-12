@@ -8,8 +8,8 @@ export class Project {
   canvas: HTMLCanvasElement;
   effects: Array<IEffect> = [];
 
-  constructor(canvas: HTMLCanvasElement, gl: WebGL2RenderingContext) {
-    this.image = new ViewportImage(canvas, gl, this.effects);
+  constructor(canvas: HTMLCanvasElement, gl: WebGL2RenderingContext, srcImage: HTMLImageElement) {
+    this.image = new ViewportImage(canvas, gl, srcImage, this.effects);
     this.gl = gl;
     this.canvas = canvas;
     this.toggleEffect();

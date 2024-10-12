@@ -21,13 +21,14 @@ export class ViewportImage {
   public constructor(
     canvas: HTMLCanvasElement,
     gl: WebGL2RenderingContext,
+    srcImage: HTMLImageElement,
     effects: Array<IEffect>
   ) {
     this.canvas = canvas;
     this.effects = effects;
 
     // Create necessary WebGL objects
-    this.texture = new Texture(gl, canvas, "a");
+    this.texture = new Texture(gl, canvas, srcImage);
     this.arrayBuffer = new Core.ArrayBuffer(gl, quadVertices);
     this.arrayBufferForFrame = new Core.ArrayBuffer(
       gl,
