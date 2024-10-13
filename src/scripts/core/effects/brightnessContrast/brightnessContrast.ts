@@ -30,7 +30,7 @@ export class BrightnessContrast implements IEffect {
     this.program.useProgram(gl);
   }
 
-  apply() {
+  public apply() {
     this.program?.useProgram(this.gl);
     const contrastLoc = this.gl.getUniformLocation(
       this.program.getProgram(),
@@ -44,7 +44,7 @@ export class BrightnessContrast implements IEffect {
     this.gl.uniform1f(brightnessLoc, this.properties.brightness);
   }
 
-  drawOptions(parent: HTMLDivElement) {
+  public drawOptions(parent: HTMLDivElement) {
     createEffectSection(
       parent,
       "Brightness / Contrast",
@@ -64,5 +64,11 @@ export class BrightnessContrast implements IEffect {
       max: 2,
       onChange: (value) => (this.properties.contrast = value),
     });
+  }
+
+  public cleanup() {
+    this.program?.deleteInclShaders();
+    // Cheaty but temporary(hopefully) way
+    document.getElementById("effects-list")!.innerHTML = "";
   }
 }

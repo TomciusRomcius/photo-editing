@@ -63,11 +63,11 @@ export class ViewportImage {
 
     // Render the initial image
     this.framebuffer1.bind();
-    this.arrayBuffer.bind(gl);
-    this.program.useProgram(gl);
-    this.texture?.bind(gl);
+    this.arrayBuffer.bind();
+    this.program.useProgram();
+    this.texture?.bind();
     gl.drawArrays(gl.TRIANGLES, 0, 6);
-    this.arrayBufferForFrame.bind(gl);
+    this.arrayBufferForFrame.bind();
 
     // Apply effects
     this.effects.forEach((effect) => {
@@ -90,5 +90,18 @@ export class ViewportImage {
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     this.framebuffer1.texture?.bind(gl);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
+  }
+
+  public cleanup() {
+    this.arrayBuffer?.delete();
+    this.arrayBufferForFrame?.delete();
+    this.framebuffer1?.delete();
+    this.framebuffer2?.delete();
+    this.program.deleteInclShaders();
+    this.texture?.delete();
+
+    this.effects.forEach((effect) => {
+      effect.cleanup();
+    })
   }
 }

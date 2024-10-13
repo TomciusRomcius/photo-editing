@@ -52,8 +52,10 @@ export class Application {
 
         const imageEl = new Image();
         imageEl.src = ev.target.result;
-        imageEl.onload = () =>
-          (this.project = new Project(this.canvas, this.gl, imageEl));
+        imageEl.onload = () => {
+          if (this.project) this.project.cleanup();
+          this.project = new Project(this.canvas, this.gl, imageEl);
+        };
       };
       reader.readAsDataURL(img);
     });

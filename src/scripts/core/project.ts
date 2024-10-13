@@ -49,4 +49,8 @@ export class Project {
       this.isSaving = false;
     }
   }
+
+  public cleanup() {
+    this.image.cleanup();
+  }
 }
