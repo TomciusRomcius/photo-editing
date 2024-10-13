@@ -39,6 +39,9 @@ export class Application {
 
   private setupUploadImage() {
     document.getElementById("upload-image")?.addEventListener("input", (e) => {
+      if (!e.currentTarget) {
+        throw new Error("Upload image input item is undefined");
+      }
       const img = e.currentTarget.files[0];
       const reader = new FileReader();
 
