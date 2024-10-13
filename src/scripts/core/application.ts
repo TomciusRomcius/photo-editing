@@ -1,4 +1,3 @@
-import { generateToolbar } from "../toolbarGenerator";
 import { Project } from "./project";
 
 export class Application {
