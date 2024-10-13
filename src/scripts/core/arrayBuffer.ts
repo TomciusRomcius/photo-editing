@@ -1,8 +1,10 @@
 export namespace Core {
   export class ArrayBuffer {
+    gl: WebGL2RenderingContext;
     buffer: WebGLBuffer | null;
   
     constructor(gl: WebGL2RenderingContext, data: Float32Array) {
+      this.gl = gl;
       this.buffer = gl.createBuffer();
       if (!this.buffer) {
         alert('Failed to create array buffer');
@@ -17,8 +19,12 @@ export namespace Core {
       gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 4*4, 2*4);
     }
   
-    bind(gl: WebGL2RenderingContext) {
-      gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+    bind() {
+      this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
+    }
+
+    delete() {
+      this.gl.deleteBuffer(this.buffer);
     }
   }
 }

@@ -5,7 +5,7 @@ export class Framebuffer {
   texture: Texture | null = null;
   gl: WebGL2RenderingContext;
 
-  constructor(gl: WebGL2RenderingContext, canvas: HTMLCanvasElement) {
+  public constructor(gl: WebGL2RenderingContext, canvas: HTMLCanvasElement) {
     this.framebuffer = gl.createFramebuffer();
     this.gl = gl;
     if (!this.framebuffer) {
@@ -26,5 +26,9 @@ export class Framebuffer {
 
   public unbind() {
     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
+  }
+
+  public delete() {
+    this.gl.deleteFramebuffer(this.framebuffer);
   }
 }

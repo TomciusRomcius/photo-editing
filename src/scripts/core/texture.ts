@@ -76,11 +76,15 @@ export class Texture {
     );
   }
 
-  public bind(gl: WebGL2RenderingContext) {
-    gl.bindTexture(gl.TEXTURE_2D, this.texture);
+  public bind() {
+    this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
   }
 
   public getTexture() {
     return this.texture;
+  }
+
+  public delete() {
+    this.gl.deleteTexture(this.texture);
   }
 }
