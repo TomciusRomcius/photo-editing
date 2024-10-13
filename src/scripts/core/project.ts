@@ -19,8 +19,6 @@ export class Project {
 
     const saveEl = document.getElementById("save-image");
     saveEl.addEventListener("click", () => this.isSaving = true);
-
-    setInterval(() => this.render(), 50);
   }
 
   toggleEffect() {

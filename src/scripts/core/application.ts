@@ -12,7 +12,7 @@ export class Application {
   }
 
   initialize() {
-    generateToolbar();
+    // Setup WebGL
     this.canvas = document.getElementById("game") as HTMLCanvasElement;
     const canvasParent = document.getElementById("viewport");
     if (!this.canvas) {
@@ -32,18 +32,32 @@ export class Application {
       return;
     }
 
+    // Setup image uploader
+    this.setupUploadImage();
+    setInterval(() => this.update(), 50);
+  }
+
+  private setupUploadImage() {
     document.getElementById("upload-image")?.addEventListener("input", (e) => {
       const img = e.currentTarget.files[0];
       const reader = new FileReader();
 
-      console.log("a");
       reader.onload = (ev) => {
+        if (!ev.target?.result) {
+          throw new Error("Failed to initialize file reader")
+        }
+
         const imageEl = new Image();
-        imageEl.src = ev.target?.result;
+        imageEl.src = ev.target.result;
         imageEl.onload = () =>
           (this.project = new Project(this.canvas, this.gl, imageEl));
       };
       reader.readAsDataURL(img);
     });
+  }
+
+  private update() {
+    if (!this.project) return;
+    this.project.render();
   }
 }
