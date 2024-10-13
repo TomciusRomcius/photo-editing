@@ -1,5 +1,4 @@
 import { generateToolbar } from "../toolbarGenerator";
-import { ViewportImage } from "./image";
 import { Project } from "./project";
 
 export class Application {
