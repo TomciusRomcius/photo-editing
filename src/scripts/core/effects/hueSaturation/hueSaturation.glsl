@@ -71,11 +71,11 @@ vec3 hslToRGB(vec3 hslValue) {
 void main() {
   vec4 color = texture(uTexture, outTexCoord);
 
-  vec3 hsl = rgbToHSL(vec3(color.x, color.y, color.z) * 255.0);
+  vec3 hsl = rgbToHSL(vec3(color.x, color.y, color.z) * 255.0f);
   // Apply effect
   hsl.x *= uHue;
   hsl.y *= uSaturation;
 
   vec3 newColor = hslToRGB(vec3(hsl.x, hsl.y, hsl.z));
-  outColor = vec4(newColor.xyz / 255.0, 1);
+  outColor = vec4(newColor.xyz / 255.0f, 1.0f);
 }
