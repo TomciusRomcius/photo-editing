@@ -8,14 +8,15 @@ export class Program {
 
   constructor(gl: WebGL2RenderingContext, vertexShader: Shader, fragmentShader: Shader) {
     this.gl = gl;
+    this.vertexShader = vertexShader;
+    this.fragmentShader = fragmentShader;
+
     this.program = gl.createProgram();
+    if (!this.program) throw new Error("Failed to create program");
     if (!this.program) {
       console.error('Failed to create program');
       return;
     }
-
-    this.vertexShader = vertexShader;
-    this.fragmentShader = fragmentShader;
 
     gl.attachShader(this.program, vertexShader.getShader());
     gl.attachShader(this.program, fragmentShader.getShader());
