@@ -8,7 +8,7 @@ export type SliderOptionsType = {
 export class Slider {
   constructor(parent: HTMLDivElement, sliderOptions: SliderOptionsType) {
     const elementHTML = `
-      <input type="range" min="${sliderOptions.mix}" min="${sliderOptions.max}"/> 
+      <input type="range" min="${sliderOptions.min}" min="${sliderOptions.max}"/> 
     `;
 
     const parser = new DOMParser();
@@ -17,8 +17,13 @@ export class Slider {
     parent.appendChild(el);
     el.addEventListener("input", (e) => {
       // Normalize input
+      const target = e.currentTarget as HTMLInputElement;
+      if (!target) {
+        throw new Error("Target not defined");
+      }
       let nMax = sliderOptions.max - sliderOptions.min;
-      let value = e.currentTarget!.value;
+      let value = Number(target.value);
+      
       value = (value / 100 * nMax) + sliderOptions.min;
       // Call onchange callback
       sliderOptions.onChange(value);

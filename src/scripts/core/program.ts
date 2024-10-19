@@ -1,7 +1,7 @@
 import { Shader } from './shader';
 
 export class Program {
-  private program: WebGLProgram | null;
+  private program: WebGLProgram;
   gl: WebGL2RenderingContext;
   vertexShader: Shader;
   fragmentShader: Shader;
@@ -11,13 +11,12 @@ export class Program {
     this.vertexShader = vertexShader;
     this.fragmentShader = fragmentShader;
 
-    this.program = gl.createProgram();
-    if (!this.program) throw new Error("Failed to create program");
-    if (!this.program) {
-      console.error('Failed to create program');
-      return;
+    const program = gl.createProgram();
+    if (!program) {
+      throw new Error("er");
     }
-
+    this.program = program;
+    
     gl.attachShader(this.program, vertexShader.getShader());
     gl.attachShader(this.program, fragmentShader.getShader());
     gl.linkProgram(this.program);

@@ -13,7 +13,7 @@ export class Framebuffer {
       return;
     }
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.framebuffer);
-    this.texture = new Texture(gl, canvas);
+    this.texture = new Texture(canvas, gl);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.texture.getTexture(), 0);
 
     // Unbind framebuffer
@@ -22,6 +22,12 @@ export class Framebuffer {
 
   public bind() {
     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, this.framebuffer);
+  }
+
+  public bindTexture() {
+    if (!this.texture)
+      throw new Error("Trying to bind framebuffer texture, when it's null");
+    this.texture.bind();
   }
 
   public unbind() {

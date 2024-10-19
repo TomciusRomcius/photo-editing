@@ -3,8 +3,8 @@ export class Texture {
   private gl: WebGL2RenderingContext;
 
   public constructor(
-    gl: WebGL2RenderingContext,
     canvas: HTMLCanvasElement,
+    gl: WebGL2RenderingContext,
     imgSrc?: HTMLImageElement
   ) {
     this.gl = gl;

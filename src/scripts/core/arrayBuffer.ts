@@ -1,15 +1,17 @@
 export namespace Core {
   export class ArrayBuffer {
     gl: WebGL2RenderingContext;
-    buffer: WebGLBuffer | null;
+    buffer: WebGLBuffer;
   
     constructor(gl: WebGL2RenderingContext, data: Float32Array) {
       this.gl = gl;
-      this.buffer = gl.createBuffer();
-      if (!this.buffer) {
-        alert('Failed to create array buffer');
-        return;
+      const buffer = gl.createBuffer();
+
+      if (!buffer) {
+        throw new Error("Failed to create an array buffer");
       }
+      this.buffer = buffer;
+      
       gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
       gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
 

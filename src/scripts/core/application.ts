@@ -1,36 +1,37 @@
 import { Project } from "./project";
 
 export class Application {
-  private gl: WebGL2RenderingContext | null;
-  private canvas: HTMLCanvasElement | null;
+  private gl: WebGL2RenderingContext;
+  private canvas: HTMLCanvasElement;
   project: Project | null = null;
 
   constructor() {
-    this.gl = null;
-    this.canvas = null;
+    const canvas = document.getElementById("game") as HTMLCanvasElement;
+    if (!canvas) {
+      throw new Error("Failed to get the canvas element");
+    }
+    const gl = canvas.getContext("webgl2");
+    if (!gl) {
+      throw new Error("Failed to create a WebGL2 context");
+    }
+    this.gl = gl;
+    if (!(this.gl.canvas instanceof HTMLCanvasElement)) {
+      throw new Error("Canvas is an offscreen canvas")
+    }
+
+    this.canvas = this.gl.canvas;
     this.initialize();
   }
 
   initialize() {
     // Setup WebGL
-    this.canvas = document.getElementById("game") as HTMLCanvasElement;
     const canvasParent = document.getElementById("viewport");
-    if (!this.canvas) {
-      console.error("Canvas is undefined");
-      return;
-    }
     if (!canvasParent) {
-      console.error("Canvas parent is undefined");
-      return;
+      throw new Error("Canvas parent is undefined");
     }
-    // this.canvas.height =
-    this.gl = this.canvas.getContext("webgl2");
+
     this.canvas.width = canvasParent.clientWidth;
     this.canvas.height = canvasParent.clientHeight;
-    if (!this.gl) {
-      console.error("Failed to initialize canvas context");
-      return;
-    }
 
     // Setup image uploader
     this.setupUploadImage();
@@ -39,10 +40,15 @@ export class Application {
 
   private setupUploadImage() {
     document.getElementById("upload-image")?.addEventListener("input", (e) => {
-      if (!e.currentTarget) {
+      const target = (e.target as HTMLInputElement);
+      if (!target) {
         throw new Error("Upload image input item is undefined");
       }
-      const img = e.currentTarget.files[0];
+      
+      if (!target.files) {
+        throw new Error("Input file stream is null");
+      }
+      const img = target.files[0];
       const reader = new FileReader();
 
       reader.onload = (ev) => {
@@ -51,7 +57,7 @@ export class Application {
         }
 
         const imageEl = new Image();
-        imageEl.src = ev.target.result;
+        imageEl.src = ev.target.result as string;
         imageEl.onload = () => {
           if (this.project) this.project.cleanup();
           this.project = new Project(this.canvas, this.gl, imageEl);

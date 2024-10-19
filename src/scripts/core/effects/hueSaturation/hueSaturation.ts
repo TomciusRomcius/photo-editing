@@ -14,7 +14,7 @@ type HueSaturationPropertiesType = {
 export class HueSaturation implements IEffect {
   gl: WebGL2RenderingContext;
   isActive = false;
-  program: Program | null = null;
+  program: Program;
   properties: HueSaturationPropertiesType = {
     hue: 1,
     saturation: 1,
@@ -27,11 +27,13 @@ export class HueSaturation implements IEffect {
       new Shader(gl, vertexSource, gl.VERTEX_SHADER),
       new Shader(gl, fragmentSource, gl.FRAGMENT_SHADER)
     );
-    this.program.useProgram(gl);
+
+    if (!this.program) throw new Error("a");
+    this.program.useProgram();
   }
 
   public apply() {
-    this.program?.useProgram();
+    this.program.useProgram();
     const hueLoc = this.gl.getUniformLocation(
       this.program.getProgram(),
       "uHue"
@@ -67,7 +69,7 @@ export class HueSaturation implements IEffect {
   }
 
   public cleanup() {
-    this.program?.deleteInclShaders();
+    this.program.deleteInclShaders();
     // Cheaty but temporary(hopefully) way
     document.getElementById("effects-list")!.innerHTML = "";
   }

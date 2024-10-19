@@ -1,23 +1,21 @@
 export class Shader {
   private gl: WebGL2RenderingContext;
-  private shader: WebGLShader | null;
+  private shader: WebGLShader;
 
   public constructor(gl: WebGL2RenderingContext, source: string, type: GLenum) {
     this.gl = gl;
-    this.shader = gl.createShader(type);
-    if (!this.shader) {
-      console.error("Failed to create shader");
-      return;
+    const shader = gl.createShader(type);
+    if (!shader) {
+      throw new Error("Failed to create shader");
     }
+    this.shader = shader;
 
     gl.shaderSource(this.shader, source);
     gl.compileShader(this.shader);
 
     if (!gl.getShaderParameter(this.shader, gl.COMPILE_STATUS)) {
       const info = gl.getShaderInfoLog(this.shader);
-
       let stringType;
-
       switch (type) {
         case gl.VERTEX_SHADER:
           stringType = "VERTEX";
@@ -29,7 +27,6 @@ export class Shader {
           console.error("Trying to create an unsupported shader type");
           return;
       }
-
       console.error(`Failed to compile ${stringType} shader ${info}`);
     }
   }

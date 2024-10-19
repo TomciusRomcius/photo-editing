@@ -6,19 +6,21 @@ import { saveImage } from "./utils";
 
 export class Project {
   image: ViewportImage;
-  gl: WebGL2RenderingContext;
   canvas: HTMLCanvasElement;
+  gl: WebGL2RenderingContext;
   effects: Array<IEffect> = [];
   isSaving: boolean = false;
 
   constructor(canvas: HTMLCanvasElement, gl: WebGL2RenderingContext, srcImage: HTMLImageElement) {
-    this.image = new ViewportImage(canvas, gl, srcImage, this.effects);
-    this.gl = gl;
     this.canvas = canvas;
+    this.gl = gl;
+    this.image = new ViewportImage(this.canvas, gl, srcImage, this.effects);
     this.toggleEffect();
     this.drawEffectUI();
-
     const saveEl = document.getElementById("save-image");
+    if (!saveEl) {
+      throw new Error("Save image button is not defined") ;
+    }
     saveEl.addEventListener("click", () => this.isSaving = true);
   }
 
@@ -34,7 +36,7 @@ export class Project {
       return;
     }
     this.effects.forEach((effect) => {
-      effect.drawOptions(parent);
+      effect.drawOptions(parent as HTMLDivElement);
     });
   }
 

@@ -28,13 +28,13 @@ export class ViewportImage {
     this.effects = effects;
 
     // Create necessary WebGL objects
-    this.texture = new Texture(gl, canvas, srcImage);
+    this.texture = new Texture(canvas, gl, srcImage);
     this.arrayBuffer = new Core.ArrayBuffer(gl, quadVertices);
     this.arrayBufferForFrame = new Core.ArrayBuffer(
       gl,
       quadVerticesForFramebuffer
     );
-    this.arrayBuffer.bind(gl);
+    this.arrayBuffer.bind();
 
     const vertexShader = new Shader(gl, vertexSource, gl.VERTEX_SHADER);
     const fragmentShader = new Shader(gl, fragmentSource, gl.FRAGMENT_SHADER);
@@ -51,14 +51,17 @@ export class ViewportImage {
   // Rerender the whole image
   public render(gl: WebGL2RenderingContext) {
     if (!this.framebuffer1 || !this.framebuffer2) {
-      console.error("Framebuffers are not initialized");
-      return;
+      throw new Error("Framebuffers are null");
     }
 
     if (!this.arrayBuffer) {
-      console.error("Array bufer is not initialized");
-      return;
+      throw new Error("Image arraybuffer is null");
     }
+
+    if (!this.arrayBufferForFrame) {
+      throw new Error("Framebuffer arraybuffer is null");
+    }
+
     gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
     // Render the initial image
@@ -67,6 +70,7 @@ export class ViewportImage {
     this.program.useProgram();
     this.texture?.bind();
     gl.drawArrays(gl.TRIANGLES, 0, 6);
+
     this.arrayBufferForFrame.bind();
 
     // Apply effects
@@ -76,7 +80,7 @@ export class ViewportImage {
         console.error("Unexpected error: Framebuffers are not initialized");
         throw "Unexpected error: Framebuffers are not initialized";
       }
-      this.framebuffer1.texture?.bind(gl);
+      this.framebuffer1.bindTexture();
       this.framebuffer2.bind();
       effect.apply();
       gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -88,7 +92,7 @@ export class ViewportImage {
     // Unbind framebuffers and draw the processed image
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    this.framebuffer1.texture?.bind(gl);
+    this.framebuffer1.bindTexture();
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 
