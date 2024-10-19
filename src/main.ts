@@ -1,5 +1,5 @@
 import './style.css';
-import { Application } from './scripts/core/application';
+import { Application } from './core/application';
 
 function main() {
     try {
