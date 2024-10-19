@@ -2,22 +2,22 @@ import { Program } from "../../program";
 import { Shader } from "../../shader";
 import { IEffect } from "../effect";
 import vertexSource from "../../coreShaders/vertex.glsl?raw";
-import fragmentSource from "./brightnessContrast.glsl?raw";
+import fragmentSource from "./hueSaturation.glsl?raw";
 import { createEffectSection } from "../../ui/createToggleableElement";
 import { Slider } from "../../ui/slider";
 
-type BrightnessContrastPropertiesType = {
-  brightness: number;
-  contrast: number;
+type HueSaturationPropertiesType = {
+  hue: number;
+  saturation: number;
 };
 
-export class BrightnessContrast implements IEffect {
+export class HueSaturation implements IEffect {
   gl: WebGL2RenderingContext;
   isActive = false;
   program: Program | null = null;
-  properties: BrightnessContrastPropertiesType = {
-    brightness: 1,
-    contrast: 1,
+  properties: HueSaturationPropertiesType = {
+    hue: 1,
+    saturation: 1,
   };
 
   constructor(gl: WebGL2RenderingContext) {
@@ -32,37 +32,37 @@ export class BrightnessContrast implements IEffect {
 
   public apply() {
     this.program?.useProgram();
-    const contrastLoc = this.gl.getUniformLocation(
+    const hueLoc = this.gl.getUniformLocation(
       this.program.getProgram(),
-      "contrast"
+      "uHue"
     );
-    const brightnessLoc = this.gl.getUniformLocation(
+    const saturationLoc = this.gl.getUniformLocation(
       this.program.getProgram(),
-      "brightness"
+      "uSaturation"
     );
-    this.gl.uniform1f(contrastLoc, this.properties.contrast);
-    this.gl.uniform1f(brightnessLoc, this.properties.brightness);
+    this.gl.uniform1f(hueLoc, this.properties.hue);
+    this.gl.uniform1f(saturationLoc, this.properties.saturation);
   }
 
   public drawOptions(parent: HTMLDivElement) {
     createEffectSection(
       parent,
-      "Brightness / Contrast",
-      "brightness-contrast",
+      "Hue / Saturation",
+      "hue-saturation",
       "abcd"
     );
     new Slider(parent, {
-      name: "Brightness",
+      name: "Hue",
       min: 0,
       max: 2,
-      onChange: (value) => (this.properties.brightness = value),
+      onChange: (value) => (this.properties.hue = value),
     });
       
     new Slider(parent, {
-      name: "Contrast",
+      name: "Saturation",
       min: 0,
       max: 2,
-      onChange: (value) => (this.properties.contrast = value),
+      onChange: (value) => (this.properties.saturation = value),
     });
   }
 

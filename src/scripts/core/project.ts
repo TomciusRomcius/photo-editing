@@ -1,5 +1,6 @@
 import { BrightnessContrast } from "./effects/brightnessContrast/brightnessContrast";
 import { IEffect } from "./effects/effect";
+import { HueSaturation } from "./effects/hueSaturation/hueSaturation";
 import { ViewportImage } from "./image";
 import { saveImage } from "./utils";
 
@@ -23,6 +24,7 @@ export class Project {
 
   toggleEffect() {
     this.effects.push(new BrightnessContrast(this.gl));
+    this.effects.push(new HueSaturation(this.gl));
   }
 
   drawEffectUI() {
